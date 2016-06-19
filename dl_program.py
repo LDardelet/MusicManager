@@ -72,6 +72,8 @@ while True:
         cancel = True
     elif "open" == raw.split(" ")[0].strip():
         open_command = True
+        if raw == "open":
+            cancel = True
         raw = raw.split("open")[1].strip()
     if "," in raw.lower():
         args = raw.split(",")
@@ -97,14 +99,15 @@ while True:
         initial_string+=" "+title
         
     else:
-        print "No artist specified, looking for title only and placing it in \"Others\" folder"
-        print "Looking for " + title +", result {0}.".format(n_query)
-        title = raw
-        artist = "Others"
-        initial_string = "youtube-dl  --extract-audio --audio-format mp3 -o \""+music_folder+".tmp.mp3\" \"gvsearch{0}:".format(n_query)
-        initial_string+=" "+title
-    
-        search = True      
+        if not cancel:
+            print "No artist specified, looking for title only and placing it in \"Others\" folder"
+            print "Looking for " + title +", result {0}.".format(n_query)
+            title = raw
+            artist = "Others"
+            initial_string = "youtube-dl  --extract-audio --audio-format mp3 -o \""+music_folder+".tmp.mp3\" \"gvsearch{0}:".format(n_query)
+            initial_string+=" "+title
+            
+            search = True      
     if search and not cancel:
         final_string = initial_string + "\""
         print "Final query string :"
